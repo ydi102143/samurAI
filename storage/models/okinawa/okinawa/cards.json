@@ -1,0 +1,73 @@
+[
+  {
+    "id": "1757337974-46c6e4",
+    "created_at": 1757337974.5409408,
+    "region": "okinawa",
+    "pref": "okinawa",
+    "model": "LogisticRegression",
+    "task": "classification",
+    "score": 0.7328767123287672,
+    "metric": "accuracy",
+    "passed": true,
+    "params": {
+      "C": 1.0,
+      "class_weight": null,
+      "dual": false,
+      "fit_intercept": true,
+      "intercept_scaling": 1,
+      "l1_ratio": null,
+      "max_iter": 1000,
+      "multi_class": "auto",
+      "n_jobs": null,
+      "penalty": "l2",
+      "random_state": null,
+      "solver": "lbfgs",
+      "tol": 0.0001,
+      "verbose": 0,
+      "warm_start": false
+    },
+    "features": [
+      "beach_crowd_index",
+      "wind_speed_mps",
+      "typhoon_alert_flag"
+    ],
+    "pipeline_hash": "2e5f8c7a9533171f557f59c8c3af239e",
+    "notes": null,
+    "created_at_readable": "2025-09-08 22:26:14"
+  },
+  {
+    "ts": 1757340047,
+    "ts_iso": "2025-09-08 23:00:47",
+    "region": "okinawa",
+    "pref": "okinawa",
+    "model": "LogisticRegression",
+    "task": "classification",
+    "score": 0.7328767123287672,
+    "metric": "accuracy",
+    "passed": true,
+    "params": {
+      "C": 1.0,
+      "class_weight": null,
+      "dual": false,
+      "fit_intercept": true,
+      "intercept_scaling": 1,
+      "l1_ratio": null,
+      "max_iter": 1000,
+      "multi_class": "auto",
+      "n_jobs": null,
+      "penalty": "l2",
+      "random_state": null,
+      "solver": "lbfgs",
+      "tol": 0.0001,
+      "verbose": 0,
+      "warm_start": false
+    },
+    "features": [
+      "beach_crowd_index",
+      "wind_speed_mps",
+      "typhoon_alert_flag"
+    ],
+    "pipeline_hash": "c1590fd0e0",
+    "extra": {}
+  }
+]

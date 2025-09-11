@@ -1,0 +1,13 @@
+[
+  {
+    "type": "onehot",
+    "columns": [
+      "holiday"
+    ]
+  },
+  {
+    "type": "missing",
+    "strategy": "mean",
+    "columns": []
+  }
+]

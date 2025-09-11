@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <title>オフライン対戦 — {{ pref|default("problem") }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- サーバ変数（必ず app.js / api.js より前） -->
+  <script>
+    window.__SAMURAI__ = {
+      problem: "{{ problem }}",   // offline_play_page から
+      region:  "{{ region or 'any' }}"
+    };
+    // 画像キャッシュ回避や静的ファイルの更新検知用（サーバから渡されない時は 0）
+    window.__TS__ = {{ ts|default(0)|tojson }};
+  </script>
+
+  <!-- 静的アセット（必ず url_for で解決。api.js -> app.js の順） -->
+  <script type="module" src="{{ request.url_for('static', path='js/app.js') }}?v={{ ts }}"></script>
+  <link rel="stylesheet" href="{{ request.url_for('static', path='css/app.css') }}?v={{ ts|default(0) }}" />
+
+  <!-- 画像は初期読込しない（src=""） -->
+  <style>
+    :root{
+      --bg:#0f1115; --panel:#11141b; --edge:#1d2230; --text:#2c2d2d;
+      --muted:#9aa3b2; --accent:#46c2ff; --accent-2:#9f7bff; --good:#4be28a; --warn:#ffad42;
+    }
+    body{background:var(--bg); color:var(--text); font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Hiragino Sans", "Noto Sans JP", "Yu Gothic UI", "Meiryo", sans-serif; margin:0}
+    .wrap{max-width:1200px; margin:0 auto; padding:16px}
+    .topbar{display:flex; gap:16px; align-items:center; margin-bottom:12px}
+    .chip{border:1px solid var(--edge); background:linear-gradient(180deg, #131827, #0f1320); padding:6px 10px; border-radius:8px; font-size:12px; color:var(--muted)}
+    h1{font-size:18px; font-weight:600; margin:0}
+    .flex{display:flex; gap:16px}
+    .panel{background:var(--panel); border:1px solid var(--edge); border-radius:12px; padding:14px}
+    .panel h2{font-size:14px; margin:0 0 10px 0}
+    .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:16px}
+    .grid-3{display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px}
+    .muted{color:var(--muted)}
+    .btn{background:linear-gradient(180deg,#1c273a,#141a2a); color:#d8e2f2; border:1px solid #293148; border-radius:10px; padding:8px 12px; cursor:pointer}
+    .btn:disabled{opacity:.5; cursor:not-allowed}
+    .btn.primary{background:linear-gradient(180deg,#1d3b64,#172b49); border-color:#2b4d78; color:#eaf6ff}
+    .btn.good{background:linear-gradient(180deg,#1f4031,#162a22); border-color:#2f5e47}
+    .btn.warn{background:linear-gradient(180deg,#513614,#2e1f0d); border-color:#6d471b}
+    .row{display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+    select, input, textarea{background:#0e1320; color:#e8eef8; border:1px solid #23293a; border-radius:10px; padding:8px}
+    textarea{width:100%; min-height:120px; font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size:12px}
+    .note{font-size:12px; color:var(--muted)}
+    .peek-wrap{max-height:360px; overflow:auto; border:1px solid var(--edge); border-radius:10px}
+    table.peek{border-collapse:collapse; width:100%; font-size:12px}
+    table.peek th, table.peek td{border-bottom:1px solid #1f2636; padding:8px}
+    table.peek thead th{position:sticky; top:0; background:#121826}
+    .model-tabs{display:flex; gap:8px; margin-bottom:10px}
+    .subtab-btn{border:1px solid var(--edge); padding:6px 10px; border-radius:999px; cursor:pointer; color:var(--muted); background:#0f1422}
+    .subtab-btn.active{color:#fff; border-color:#355089; background:#17233c}
+    .subtab{display:none}
+    .subtab.active{display:block}
+    .cards{display:grid; grid-template-columns:repeat(2, minmax(280px,1fr)); gap:14px}
+    .card{background:linear-gradient(180deg, #131827, #0e1321); border:1px solid #21283a; border-radius:14px; padding:12px}
+    .card h3{margin:0 0 6px 0; font-size:14px}
+    .params-grid{display:grid; grid-template-columns:1fr 1fr; gap:8px}
+    .model-footer{display:flex; align-items:center; gap:10px; margin-top:8px}
+    .eval-plots{display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px}
+    .eval-plots img{width:100%; border:1px solid #1f2636; border-radius:8px; background:#0b1020}
+    .msg{font-size:12px; color:var(--muted)}
+    .tabs{display:flex; gap:8px; margin:12px 0}
+    .tab-btn{padding:8px 12px; border:1px solid var(--edge); border-radius:10px; color:#d7e2f2; background:#0f1422; cursor:pointer}
+    .tab-btn.active{background:#18243f; border-color:#2d446f}
+    .tab{display:none}
+    .tab.active{display:block}
+    .img-wrap{min-height:40px}
+    .img-cover{max-width:100%; height:auto; display:block}
+    .small{font-size:12px}
+    .mono{font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace}
+    .right{display:flex; justify-content:flex-end; gap:8px}
+    .lead{margin:.2rem 0}
+    .bullets{padding-left:1em}
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header class="topbar">
+      <h1>オフライン対戦 — {{ pref|default("problem") }}</h1>
+      <span class="chip">Region: <b>{{ region or 'any' }}</b></span>
+      <span class="chip">Level: <b id="chip-level">-</b></span>
+      <span class="chip">Metric: <b id="chip-metric">-</b></span>
+    </header>
+
+    <!-- メインタブ -->
+    <nav class="tabs" id="tabs">
+      <button class="tab-btn active" data-tab="about">問題説明</button>
+      <button class="tab-btn" data-tab="eda">EDA</button>
+      <button class="tab-btn" data-tab="preproc">前処理</button>
+      <button class="tab-btn" data-tab="models">モデル選択</button>
+      <button class="tab-btn" data-tab="eval">評価</button>
+      <button class="tab-btn" data-tab="submit">提出</button>
+    </nav>
+
+    <!-- 1) 問題説明 -->
+    <section id="tab-about" class="tab active">
+      <div class="grid-3">
+        <article class="card">
+          <h3>この問題</h3>
+          <div id="aboutOut" class="mono small">loading…</div>
+        </article>
+
+        <article class="card">
+          <h3>目的変数</h3>
+          <p id="targetJP" class="lead small">-</p>
+          <ul class="bullets small">
+            <li>タイプ：<span id="meta-task">-</span></li>
+            <li>評価指標：<span id="meta-metric">-</span></li>
+            <li>レベル：<span id="meta-level">-</span></li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h3>データセット情報</h3>
+          <ul class="small mono" id="datasetSummary">
+            <li>行数: <span id="nRows">-</span></li>
+            <li>列数: <span id="nCols">-</span></li>
+            <li>対象期間: <span id="dateRange">-</span></li>
+          </ul>
+          <p class="muted small">※ カラム名は日本語表示。内部名は学習時にマッピングされます。</p>
+        </article>
+      </div>
+    </section>
+    <!-- 2) EDA -->
+    <section id="tab-eda" class="tab">
+      <div class="card">
+        <div class="row" style="justify-content:space-between">
+          <h3>20行プレビュー（Lv2〜）</h3>
+          <button id="btnSchema" class="btn">更新</button>
+        </div>
+        <div id="schemaOut" class="peek-wrap muted">テーブルを読み込み中…</div>
+      </div>
+
+      <div id="edaLv3" class="grid-3" style="display:none">
+        <article class="card">
+          <h4>相関ヒートマップ（Lv3〜）</h4>
+          <img id="corrOut" src="" alt="corr heatmap" class="img-cover" />
+          <button id="btnCorr" class="btn">描画</button>
+        </article>
+        <article class="card">
+          <h4>単変量（ヒスト/箱ひげ）（Lv3〜）</h4>
+          <div class="row">
+            <select id="univarCol"></select>
+            <button id="btnUnivar" class="btn">描画</button>
+          </div>
+          <div id="univarOut" class="img-wrap"></div>
+        </article>
+        <article class="card">
+          <h4>散布図（Lv3〜）</h4>
+          <div class="row">
+            <label>X</label><select id="scatterX"></select>
+            <label>Y</label><select id="scatterY"></select>
+            <button id="btnScatter" class="btn">描画</button>
+          </div>
+          <div id="scatterOut" class="img-wrap"></div>
+        </article>
+      </div>
+    </section>
+
+    <!-- 3) 前処理 -->
+    <section id="tab-preproc" class="tab">
+      <div class="grid-2">
+        <article class="card">
+          <h3>欠損率（列ごと）</h3>
+          <!-- 初期 src は空。サーバから棒グラフPNGを返す -->
+          <img id="eda-missing-img" alt="missing bar chart" src="" class="img-cover">
+        </article>
+        <article class="card">
+          <h3>欠損値処理</h3>
+          <!-- 列ごと -->
+          <div class="row wrap">
+            <label>列</label><select id="imputeCol"></select>
+            <label>戦略</label>
+            <select id="imputeMethod">
+              <option value="mean">平均</option>
+              <option value="median">中央値</option>
+              <option value="mode">最頻値</option>
+              <option value="constant">定数</option>
+              <option value="ffill">前方補完</option>
+              <option value="bfill">後方補完</option>
+            </select>
+            <input id="imputeConst" placeholder="定数（strategy=constant）">
+            <button id="btnImputeSave" class="btn primary">保存</button>
+          </div>
+          <!-- 一括 -->
+          <div class="row wrap">
+            <label>一括戦略</label>
+            <select id="imputeAllMethod">
+              <option value="">指定なし</option>
+              <option value="mean">平均</option>
+              <option value="median">中央値</option>
+              <option value="mode">最頻値</option>
+              <option value="constant">定数</option>
+              <option value="ffill">前方補完</option>
+              <option value="bfill">後方補完</option>
+            </select>
+            <input id="imputeAllConst" placeholder="定数（constant時）">
+            <button id="btnImputeAll" class="btn">一括保存</button>
+          </div>
+          <small id="preprocMsg" class="muted"></small>
+        </article>
+      </div>
+
+      <div class="grid-3">
+        <article class="card">
+          <h3>One-Hot エンコード <small class="muted">（カテゴリ複数選択）</small></h3>
+          <select id="onehotCols" multiple size="8" style="width:100%"></select>
+          <div class="right"><button id="btnOnehot" class="btn">保存</button></div>
+        </article>
+
+        <article id="scaleBlock" class="card" style="display:none">
+          <h3>スケーリング <small class="muted">Lv4〜</small></h3>
+          <div class="row">
+            <label>方法</label>
+            <select id="scaleKind">
+              <option value="standard">標準化</option>
+              <option value="minmax">Min-Max</option>
+            </select>
+          </div>
+          <select id="scaleCols" multiple size="8" style="width:100%"></select>
+          <div class="right"><button id="btnScale" class="btn">保存</button></div>
+        </article>
+
+        <article id="featSelectBlock" class="card">
+          <h3>特徴量選択 <small class="muted">Lv1〜（学習用DFに反映）</small></h3>
+          <div class="grid-2">
+            <div>
+              <h4>数値</h4>
+              <select id="featNum" multiple size="10" style="width:100%"></select>
+            </div>
+            <div>
+              <h4>カテゴリ</h4>
+              <select id="featCat" multiple size="10" style="width:100%"></select>
+            </div>
+          </div>
+          <div class="right"><button id="btnFeatSave" class="btn">保存</button></div>
+        </article>
+
+        <article class="card">
+          <h3>加工のリセット</h3>
+          <p class="muted">最新の加工（欠損/One-Hot/スケール/選択）を破棄して、元のCSV状態に戻します。</p>
+          <button id="btnPreprocReset" class="btn warn">元に戻す</button>
+        </article>
+      </div>
+    </section>
+    <!-- 4) モデル選択（超こだわりタブ） -->
+    <section id="tab-models" class="tab">
+      <header class="panel">
+        <h2>モデル選択</h2>
+        <p id="taskInfo" class="muted small">目的変数・タスク・指標を読込中…</p>
+      </header>
+
+      <div class="subtabs">
+        <button class="subtab-btn active" data-subtab="basic">基本モデル</button>
+        <button class="subtab-btn" data-subtab="ensemble">アンサンブル</button>
+      </div>
+
+      <!-- 基本モデル（分類 or 回帰で出し分け。カードはJSで生成でもOK） -->
+      <div id="subtab-basic" class="subtab active">
+        <div class="grid-2" id="cards-basic">
+          <!-- 例：カード雛形（JSで複製/生成推奨）。以下は1枚の参考（LogReg） -->
+          <!--
+          <article class="card" data-model="LogisticRegression">
+            <div class="row" style="justify-content:space-between">
+              <h3 class="h3">ロジスティック回帰 <span class="muted">LogisticRegression</span></h3>
+              <span class="chip">分類</span>
+            </div>
+            <div class="params-grid">
+              <label>正則化C</label><input type="number" step="0.1" value="1.0" data-param="C">
+              <label>penalty</label>
+              <select data-param="penalty"><option value="l2">l2</option></select>
+            </div>
+            <div class="model-footer">
+              <button class="btn" data-train>学習</button>
+              <span class="msg" data-msg>-</span>
+            </div>
+          </article>
+          -->
+        </div>
+      </div>
+
+      <div id="subtab-ensemble" class="subtab">
+        <div class="subtabs slim">
+          <button class="subtab-btn active" data-subtab="bag">バギング</button>
+          <button class="subtab-btn" data-subtab="boost">ブースティング</button>
+          <button class="subtab-btn" data-subtab="stack">スタッキング</button>
+        </div>
+
+        <!-- バギング -->
+        <div id="sub-bag" class="subtab active">
+          <article class="card">
+            <div class="row" style="justify-content:space-between">
+              <h3 class="h3">ランダムフォレスト</h3>
+              <div class="badges">
+                <span class="chip">分類/回帰</span>
+                <span class="chip">Lv3〜</span>
+              </div>
+            </div>
+            <div id="cards-bag" class="grid-2"></div>
+          </article>
+        </div>
+
+        <!-- ブースティング（Lv6〜で表示） -->
+        <div id="sub-boost" class="subtab" style="display:none">
+          <div class="grid-2">
+            <article class="card">
+              <div class="row" style="justify-content:space-between">
+                <h3 class="h3">AdaBoost</h3>
+                <span class="chip">Lv6〜</span>
+              </div>
+              <div id="cards-boost"></div>
+            </article>
+            <article class="card">
+              <div class="row" style="justify-content:space-between">
+                <h3 class="h3">Gradient Boosting</h3>
+                <span class="chip">Lv6〜</span>
+              </div>
+              <div id="cards-boost2"></div>
+            </article>
+          </div>
+
+          <div class="grid-3" id="boostLv7" style="display:none">
+            <article class="card">
+              <div class="row" style="justify-content:space-between">
+                <h3 class="h3">XGBoost</h3>
+                <span class="chip">Lv7〜</span>
+              </div>
+              <div id="cards-xgb"></div>
+            </article>
+            <article class="card">
+              <div class="row" style="justify-content:space-between">
+                <h3 class="h3">LightGBM</h3>
+                <span class="chip">Lv7〜</span>
+              </div>
+              <div id="cards-lgbm"></div>
+            </article>
+            <article class="card">
+              <div class="row" style="justify-content:space-between">
+                <h3 class="h3">CatBoost</h3>
+                <span class="chip">Lv7〜</span>
+              </div>
+              <div id="cards-cat"></div>
+            </article>
+          </div>
+        </div>
+
+        <!-- スタッキング（Lv9〜） -->
+        <div id="sub-stack" class="subtab" style="display:none">
+          <article class="card">
+            <div class="row" style="justify-content:space-between">
+              <h3 class="h3">スタッキング</h3>
+              <span class="chip">Lv9〜</span>
+            </div>
+            <p class="muted small">ベース学習器の出力をメタ学習器で統合（CV分割でリーク抑制）</p>
+
+            <!-- ベース：チェックボックス複数選択（JSで生成） -->
+            <div id="stackBaseList" class="mono small"></div>
+            <p class="small muted">メタ学習器: <b id="stackMetaFixed">LogisticRegression（分類）/ LinearRegression（回帰）</b></p>
+
+            <div class="row">
+              <label>CV分割</label>
+              <input id="stackCV" type="number" min="2" max="10" value="5" style="width:6em">
+              <button id="btnStackTrain" class="btn">学習</button>
+              <span id="stackMsg" class="muted small mono"></span>
+            </div>
+            <div id="cards-stack" class="cards" style="grid-template-columns:1fr"></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5) 評価 -->
+    <section id="tab-eval" class="tab">
+      <div class="card">
+        <div class="row wrap">
+          <label>評価するモデル</label>
+          <select id="evalModel"></select>
+          <label id="cvLabel" style="display:none">CV</label>
+          <input id="cvFolds" type="number" min="0" max="10" value="0" style="width:6em; display:none">
+          <button id="btnEvaluate" class="btn primary">評価</button>
+          <button id="btnEvalCV" class="btn" style="display:none">CV評価</button>
+        </div>
+        <div id="evalMsg" class="mono small muted">-</div>
+      </div>
+
+      <div class="grid-3" id="plotsBlock">
+        <article class="card" id="cardCM">
+          <h4>Confusion Matrix（分類）</h4>
+          <img id="plotConf" src="" alt="confusion matrix" class="img-cover">
+        </article>
+        <article class="card" id="cardROC">
+          <h4>ROC（分類）</h4>
+          <img id="plotROC" src="" alt="roc curve" class="img-cover">
+        </article>
+        <article class="card" id="cardREG">
+          <h4>回帰（y vs ŷ）</h4>
+          <img id="plotREG" src="" alt="regression scatter" class="img-cover">
+        </article>
+      </div>
+
+      <div class="card">
+        <div class="row" style="justify-content:space-between">
+          <h3>モデルカード</h3>
+          <div>
+            <button id="btnCardsReload" class="btn">更新</button>
+            <button id="btnCardsCSV" class="btn">CSVで出力</button>
+          </div>
+        </div>
+        <div id="cardsTable" class="peek-wrap mono small">-</div>
+      </div>
+    </section>
+
+    <!-- 6) 提出 -->
+    <section id="tab-submit" class="tab">
+      <div class="card">
+        <h3>提出</h3>
+        <p class="muted">直近の評価結果/選択モデルで提出します（モック可）。</p>
+        <p class="mono small" id="lastEvalSummary">-</p>
+        <button id="btnSubmit" class="btn primary">提出する</button>
+        <div id="submitMsg" class="small mono muted"></div>
+      </div>
+    </section>
+  </div><!-- /.wrap -->
+
+  <!-- ページ専用スクリプト（ESMで app.js のAPI呼び出しと整合） -->
+<script type="module">
+  // NOTE: 画面ロジックは app/static/js/app.js に集約しました（ここは空でOK）
+</script>

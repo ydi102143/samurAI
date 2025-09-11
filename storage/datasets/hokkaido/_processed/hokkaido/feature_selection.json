@@ -1,0 +1,12 @@
+{
+  "num_cols": [
+    "snowfall_cm",
+    "wind_speed_mps",
+    "snow_quality_index",
+    "ski_resort_visitors",
+    "temperature_c",
+    "rainfall_mm",
+    "event_local_flag"
+  ],
+  "cat_cols": []
+}

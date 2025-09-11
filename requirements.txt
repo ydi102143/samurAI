@@ -1,0 +1,10 @@
+fastapi==0.112.0
+uvicorn[standard]==0.30.5
+jinja2==3.1.4
+pandas==2.2.2
+numpy==1.26.4
+scikit-learn==1.4.2
+matplotlib==3.8.4
+# optional (あると嬉しい)
+xgboost==1.7.6 ; python_version >= "3.8"
+lightgbm==4.3.0 ; python_version >= "3.8"

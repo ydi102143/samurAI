@@ -1,0 +1,10 @@
+{
+  "num_cols": [
+    "temperature_c",
+    "rainfall_mm",
+    "tourist_inflow_count",
+    "special_local_index",
+    "wind_speed_mps"
+  ],
+  "cat_cols": []
+}

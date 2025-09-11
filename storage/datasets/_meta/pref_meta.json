@@ -1,0 +1,433 @@
+{
+  "okinawa": {
+    "region": "okinawa",
+    "level": 1,
+    "target": { "name": "y", "type": "classification" },
+    "metric": "accuracy",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","preprocess_impute","preprocess_reset"],
+    "allowed_models": ["LogisticRegression"]
+  },
+
+  "fukuoka": {
+    "region": "kyushu",
+    "level": 2,
+    "target": { "name": "y", "type": "regression" },
+    "metric": "r2",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","eda_preview","eda_schema"],
+    "allowed_models": ["LinearRegression","DecisionTreeRegressor"]
+  },
+  "saga": {
+    "region": "kyushu",
+    "level": 2,
+    "target": { "name": "y", "type": "classification" },
+    "metric": "accuracy",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","eda_preview","eda_schema"],
+    "allowed_models": ["LogisticRegression","DecisionTreeClassifier"]
+  },
+  "nagasaki": {
+    "region": "kyushu",
+    "level": 2,
+    "target": { "name": "y", "type": "classification" },
+    "metric": "accuracy",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","eda_preview","eda_schema"],
+    "allowed_models": ["LogisticRegression","DecisionTreeClassifier"]
+  },
+  "kumamoto": {
+    "region": "kyushu",
+    "level": 2,
+    "target": { "name": "y", "type": "classification" },
+    "metric": "accuracy",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","eda_preview","eda_schema"],
+    "allowed_models": ["LogisticRegression","DecisionTreeClassifier"]
+  },
+  "oita": {
+    "region": "kyushu",
+    "level": 2,
+    "target": { "name": "y", "type": "regression" },
+    "metric": "r2",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","eda_preview","eda_schema"],
+    "allowed_models": ["LinearRegression","DecisionTreeRegressor"]
+  },
+  "miyazaki": {
+    "region": "kyushu",
+    "level": 2,
+    "target": { "name": "y", "type": "regression" },
+    "metric": "r2",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","eda_preview","eda_schema"],
+    "allowed_models": ["LinearRegression","DecisionTreeRegressor"]
+  },
+  "kagoshima": {
+    "region": "kyushu",
+    "level": 2,
+    "target": { "name": "y", "type": "classification" },
+    "metric": "accuracy",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","eda_preview","eda_schema"],
+    "allowed_models": ["LogisticRegression","DecisionTreeClassifier"]
+  },
+
+  "tokushima": {
+    "region": "shikoku",
+    "level": 3,
+    "target": { "name": "y", "type": "classification" },
+    "metric": "accuracy",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","eda_preview","eda_schema","eda_corr","eda_hist","eda_scatter","preprocess_onehot","preprocess_impute","preprocess_reset"],
+    "allowed_models": ["LogisticRegression","DecisionTreeClassifier","RandomForestClassifier"]
+  },
+  "kagawa": {
+    "region": "shikoku",
+    "level": 3,
+    "target": { "name": "y", "type": "regression" },
+    "metric": "r2",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","eda_preview","eda_schema","eda_corr","eda_hist","eda_scatter","preprocess_onehot","preprocess_impute","preprocess_reset"],
+    "allowed_models": ["LinearRegression","DecisionTreeRegressor","RandomForestRegressor"]
+  },
+  "ehime": {
+    "region": "shikoku",
+    "level": 3,
+    "target": { "name": "y", "type": "regression" },
+    "metric": "r2",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","eda_preview","eda_schema","eda_corr","eda_hist","eda_scatter","preprocess_onehot","preprocess_impute","preprocess_reset"],
+    "allowed_models": ["LinearRegression","DecisionTreeRegressor","RandomForestRegressor"]
+  },
+  "kochi": {
+    "region": "shikoku",
+    "level": 3,
+    "target": { "name": "y", "type": "classification" },
+    "metric": "accuracy",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","eda_preview","eda_schema","eda_corr","eda_hist","eda_scatter","preprocess_onehot","preprocess_impute","preprocess_reset"],
+    "allowed_models": ["LogisticRegression","DecisionTreeClassifier","RandomForestClassifier"]
+  },
+
+  "tottori": {
+    "region": "chugoku",
+    "level": 4,
+    "target": { "name": "y", "type": "regression" },
+    "metric": "r2",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","eda_preview","eda_schema","eda_corr","eda_hist","preprocess_onehot","preprocess_impute","preprocess_reset","scale_standard","scale_minmax","cv"],
+    "allowed_models": ["LinearRegression","DecisionTreeRegressor","RandomForestRegressor","KNeighborsRegressor"]
+  },
+  "shimane": {
+    "region": "chugoku",
+    "level": 4,
+    "target": { "name": "y", "type": "regression" },
+    "metric": "r2",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","eda_preview","eda_schema","eda_corr","eda_hist","preprocess_onehot","preprocess_impute","preprocess_reset","scale_standard","scale_minmax","cv"],
+    "allowed_models": ["LinearRegression","DecisionTreeRegressor","RandomForestRegressor","KNeighborsRegressor"]
+  },
+  "okayama": {
+    "region": "chugoku",
+    "level": 4,
+    "target": { "name": "y", "type": "classification" },
+    "metric": "accuracy",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","eda_preview","eda_schema","eda_corr","eda_hist","preprocess_onehot","preprocess_impute","preprocess_reset","scale_standard","scale_minmax","cv"],
+    "allowed_models": ["LogisticRegression","DecisionTreeClassifier","RandomForestClassifier","KNeighborsClassifier"]
+  },
+  "hiroshima": {
+    "region": "chugoku",
+    "level": 4,
+    "target": { "name": "y", "type": "classification" },
+    "metric": "accuracy",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","eda_preview","eda_schema","eda_corr","eda_hist","preprocess_onehot","preprocess_impute","preprocess_reset","scale_standard","scale_minmax","cv"],
+    "allowed_models": ["LogisticRegression","DecisionTreeClassifier","RandomForestClassifier","KNeighborsClassifier"]
+  },
+  "yamaguchi": {
+    "region": "chugoku",
+    "level": 4,
+    "target": { "name": "y", "type": "classification" },
+    "metric": "accuracy",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","eda_preview","eda_schema","eda_corr","eda_hist","preprocess_onehot","preprocess_impute","preprocess_reset","scale_standard","scale_minmax","cv"],
+    "allowed_models": ["LogisticRegression","DecisionTreeClassifier","RandomForestClassifier","KNeighborsClassifier"]
+  },
+
+  "mie": {
+    "region": "kinki",
+    "level": 5,
+    "target": { "name": "y", "type": "regression" },
+    "metric": "r2",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","eda_preview","eda_schema","preprocess_onehot","preprocess_impute","preprocess_reset","scale_standard","scale_minmax","cv","tune_random"],
+    "allowed_models": ["LinearRegression","DecisionTreeRegressor","RandomForestRegressor","KNeighborsRegressor","SVR"]
+  },
+  "shiga": {
+    "region": "kinki",
+    "level": 5,
+    "target": { "name": "y", "type": "classification" },
+    "metric": "accuracy",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","eda_preview","eda_schema","preprocess_onehot","preprocess_impute","preprocess_reset","scale_standard","scale_minmax","cv","tune_random"],
+    "allowed_models": ["LogisticRegression","DecisionTreeClassifier","RandomForestClassifier","KNeighborsClassifier","SVC"]
+  },
+  "kyoto": {
+    "region": "kinki",
+    "level": 5,
+    "target": { "name": "y", "type": "regression" },
+    "metric": "r2",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","eda_preview","eda_schema","preprocess_onehot","preprocess_impute","preprocess_reset","scale_standard","scale_minmax","cv","tune_random"],
+    "allowed_models": ["LinearRegression","DecisionTreeRegressor","RandomForestRegressor","KNeighborsRegressor","SVR"]
+  },
+  "osaka": {
+    "region": "kinki",
+    "level": 5,
+    "target": { "name": "y", "type": "regression" },
+    "metric": "r2",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","eda_preview","eda_schema","preprocess_onehot","preprocess_impute","preprocess_reset","scale_standard","scale_minmax","cv","tune_random"],
+    "allowed_models": ["LinearRegression","DecisionTreeRegressor","RandomForestRegressor","KNeighborsRegressor","SVR"]
+  },
+  "hyogo": {
+    "region": "kinki",
+    "level": 5,
+    "target": { "name": "y", "type": "classification" },
+    "metric": "accuracy",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","eda_preview","eda_schema","preprocess_onehot","preprocess_impute","preprocess_reset","scale_standard","scale_minmax","cv","tune_random"],
+    "allowed_models": ["LogisticRegression","DecisionTreeClassifier","RandomForestClassifier","KNeighborsClassifier","SVC"]
+  },
+  "nara": {
+    "region": "kinki",
+    "level": 5,
+    "target": { "name": "y", "type": "regression" },
+    "metric": "r2",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","eda_preview","eda_schema","preprocess_onehot","preprocess_impute","preprocess_reset","scale_standard","scale_minmax","cv","tune_random"],
+    "allowed_models": ["LinearRegression","DecisionTreeRegressor","RandomForestRegressor","KNeighborsRegressor","SVR"]
+  },
+  "wakayama": {
+    "region": "kinki",
+    "level": 5,
+    "target": { "name": "y", "type": "regression" },
+    "metric": "r2",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","eda_preview","eda_schema","preprocess_onehot","preprocess_impute","preprocess_reset","scale_standard","scale_minmax","cv","tune_random"],
+    "allowed_models": ["LinearRegression","DecisionTreeRegressor","RandomForestRegressor","KNeighborsRegressor","SVR"]
+  },
+
+  "niigata": {
+    "region": "chubu",
+    "level": 6,
+    "target": { "name": "y", "type": "classification" },
+    "metric": "accuracy",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","eda_preview","eda_schema","preprocess_onehot","preprocess_impute","preprocess_reset","scale_standard","scale_minmax","cv","feature_importance","tune_random","best_save","best_load"],
+    "allowed_models": ["LogisticRegression","DecisionTreeClassifier","RandomForestClassifier","KNeighborsClassifier","SVC","GradientBoostingClassifier","AdaBoostClassifier"]
+  },
+  "toyama": {
+    "region": "chubu",
+    "level": 6,
+    "target": { "name": "y", "type": "classification" },
+    "metric": "accuracy",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","eda_preview","eda_schema","preprocess_onehot","preprocess_impute","preprocess_reset","scale_standard","scale_minmax","cv","feature_importance","tune_random","best_save","best_load"],
+    "allowed_models": ["LogisticRegression","DecisionTreeClassifier","RandomForestClassifier","KNeighborsClassifier","SVC","GradientBoostingClassifier","AdaBoostClassifier"]
+  },
+  "ishikawa": {
+    "region": "chubu",
+    "level": 6,
+    "target": { "name": "y", "type": "regression" },
+    "metric": "r2",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","eda_preview","eda_schema","preprocess_onehot","preprocess_impute","preprocess_reset","scale_standard","scale_minmax","cv","feature_importance","tune_random","best_save","best_load"],
+    "allowed_models": ["LinearRegression","DecisionTreeRegressor","RandomForestRegressor","KNeighborsRegressor","SVR","GradientBoostingRegressor","AdaBoostRegressor"]
+  },
+  "fukui": {
+    "region": "chubu",
+    "level": 6,
+    "target": { "name": "y", "type": "classification" },
+    "metric": "accuracy",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","eda_preview","eda_schema","preprocess_onehot","preprocess_impute","preprocess_reset","scale_standard","scale_minmax","cv","feature_importance","tune_random","best_save","best_load"],
+    "allowed_models": ["LogisticRegression","DecisionTreeClassifier","RandomForestClassifier","KNeighborsClassifier","SVC","GradientBoostingClassifier","AdaBoostClassifier"]
+  },
+  "yamanashi": {
+    "region": "chubu",
+    "level": 6,
+    "target": { "name": "y", "type": "regression" },
+    "metric": "r2",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","eda_preview","eda_schema","preprocess_onehot","preprocess_impute","preprocess_reset","scale_standard","scale_minmax","cv","feature_importance","tune_random","best_save","best_load"],
+    "allowed_models": ["LinearRegression","DecisionTreeRegressor","RandomForestRegressor","KNeighborsRegressor","SVR","GradientBoostingRegressor","AdaBoostRegressor"]
+  },
+  "nagano": {
+    "region": "chubu",
+    "level": 6,
+    "target": { "name": "y", "type": "classification" },
+    "metric": "accuracy",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","eda_preview","eda_schema","preprocess_onehot","preprocess_impute","preprocess_reset","scale_standard","scale_minmax","cv","feature_importance","tune_random","best_save","best_load"],
+    "allowed_models": ["LogisticRegression","DecisionTreeClassifier","RandomForestClassifier","KNeighborsClassifier","SVC","GradientBoostingClassifier","AdaBoostClassifier"]
+  },
+  "gifu": {
+    "region": "chubu",
+    "level": 6,
+    "target": { "name": "y", "type": "regression" },
+    "metric": "r2",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","eda_preview","eda_schema","preprocess_onehot","preprocess_impute","preprocess_reset","scale_standard","scale_minmax","cv","feature_importance","tune_random","best_save","best_load"],
+    "allowed_models": ["LinearRegression","DecisionTreeRegressor","RandomForestRegressor","KNeighborsRegressor","SVR","GradientBoostingRegressor","AdaBoostRegressor"]
+  },
+  "shizuoka": {
+    "region": "chubu",
+    "level": 6,
+    "target": { "name": "y", "type": "regression" },
+    "metric": "r2",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","eda_preview","eda_schema","preprocess_onehot","preprocess_impute","preprocess_reset","scale_standard","scale_minmax","cv","feature_importance","tune_random","best_save","best_load"],
+    "allowed_models": ["LinearRegression","DecisionTreeRegressor","RandomForestRegressor","KNeighborsRegressor","SVR","GradientBoostingRegressor","AdaBoostRegressor"]
+  },
+  "aichi": {
+    "region": "chubu",
+    "level": 6,
+    "target": { "name": "y", "type": "regression" },
+    "metric": "r2",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","eda_preview","eda_schema","preprocess_onehot","preprocess_impute","preprocess_reset","scale_standard","scale_minmax","cv","feature_importance","tune_random","best_save","best_load"],
+    "allowed_models": ["LinearRegression","DecisionTreeRegressor","RandomForestRegressor","KNeighborsRegressor","SVR","GradientBoostingRegressor","AdaBoostRegressor"]
+  },
+
+  "ibaraki": {
+    "region": "kanto",
+    "level": 7,
+    "target": { "name": "y", "type": "classification" },
+    "metric": "accuracy",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","eda_preview","eda_schema","preprocess_onehot","preprocess_impute","preprocess_reset","scale_standard","scale_minmax","cv","feature_importance","tune_random","best_save","best_load"],
+    "allowed_models": ["LogisticRegression","DecisionTreeClassifier","RandomForestClassifier","KNeighborsClassifier","SVC","GradientBoostingClassifier","XGBoostClassifier"]
+  },
+  "tochigi": {
+    "region": "kanto",
+    "level": 7,
+    "target": { "name": "y", "type": "regression" },
+    "metric": "r2",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","eda_preview","eda_schema","preprocess_onehot","preprocess_impute","preprocess_reset","scale_standard","scale_minmax","cv","feature_importance","tune_random","best_save","best_load"],
+    "allowed_models": ["LinearRegression","DecisionTreeRegressor","RandomForestRegressor","KNeighborsRegressor","SVR","GradientBoostingRegressor","XGBoostRegressor"]
+  },
+  "gunma": {
+    "region": "kanto",
+    "level": 7,
+    "target": { "name": "y", "type": "classification" },
+    "metric": "accuracy",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","eda_preview","eda_schema","preprocess_onehot","preprocess_impute","preprocess_reset","scale_standard","scale_minmax","cv","feature_importance","tune_random","best_save","best_load"],
+    "allowed_models": ["LogisticRegression","DecisionTreeClassifier","RandomForestClassifier","KNeighborsClassifier","SVC","GradientBoostingClassifier","XGBoostClassifier"]
+  },
+  "saitama": {
+    "region": "kanto",
+    "level": 7,
+    "target": { "name": "y", "type": "regression" },
+    "metric": "r2",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","eda_preview","eda_schema","preprocess_onehot","preprocess_impute","preprocess_reset","scale_standard","scale_minmax","cv","feature_importance","tune_random","best_save","best_load"],
+    "allowed_models": ["LinearRegression","DecisionTreeRegressor","RandomForestRegressor","KNeighborsRegressor","SVR","GradientBoostingRegressor","XGBoostRegressor"]
+  },
+  "chiba": {
+    "region": "kanto",
+    "level": 7,
+    "target": { "name": "y", "type": "regression" },
+    "metric": "r2",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","eda_preview","eda_schema","preprocess_onehot","preprocess_impute","preprocess_reset","scale_standard","scale_minmax","cv","feature_importance","tune_random","best_save","best_load"],
+    "allowed_models": ["LinearRegression","DecisionTreeRegressor","RandomForestRegressor","KNeighborsRegressor","SVR","GradientBoostingRegressor","XGBoostRegressor"]
+  },
+  "tokyo": {
+    "region": "kanto",
+    "level": 7,
+    "target": { "name": "y", "type": "regression" },
+    "metric": "r2",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","eda_preview","eda_schema","preprocess_onehot","preprocess_impute","preprocess_reset","scale_standard","scale_minmax","cv","feature_importance","tune_random","best_save","best_load"],
+    "allowed_models": ["LinearRegression","DecisionTreeRegressor","RandomForestRegressor","KNeighborsRegressor","SVR","GradientBoostingRegressor","XGBoostRegressor"]
+  },
+  "kanagawa": {
+    "region": "kanto",
+    "level": 7,
+    "target": { "name": "y", "type": "regression" },
+    "metric": "r2",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","eda_preview","eda_schema","preprocess_onehot","preprocess_impute","preprocess_reset","scale_standard","scale_minmax","cv","feature_importance","tune_random","best_save","best_load"],
+    "allowed_models": ["LinearRegression","DecisionTreeRegressor","RandomForestRegressor","KNeighborsRegressor","SVR","GradientBoostingRegressor","XGBoostRegressor"]
+  },
+
+  "aomori": {
+    "region": "tohoku",
+    "level": 8,
+    "target": { "name": "y", "type": "classification" },
+    "metric": "accuracy",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","eda_preview","eda_schema","preprocess_onehot","preprocess_impute","preprocess_reset","scale_standard","scale_minmax","cv","feature_importance","tune_bayes","best_save","best_load","roc_pr","threshold_sweep_youden"],
+    "allowed_models": ["LogisticRegression","DecisionTreeClassifier","RandomForestClassifier","KNeighborsClassifier","SVC","GradientBoostingClassifier","XGBoostClassifier","LightGBMClassifier","CatBoostClassifier"]
+  },
+  "iwate": {
+    "region": "tohoku",
+    "level": 8,
+    "target": { "name": "y", "type": "classification" },
+    "metric": "accuracy",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","eda_preview","eda_schema","preprocess_onehot","preprocess_impute","preprocess_reset","scale_standard","scale_minmax","cv","feature_importance","tune_bayes","best_save","best_load","roc_pr","threshold_sweep_youden"],
+    "allowed_models": ["LogisticRegression","DecisionTreeClassifier","RandomForestClassifier","KNeighborsClassifier","SVC","GradientBoostingClassifier","XGBoostClassifier","LightGBMClassifier","CatBoostClassifier"]
+  },
+  "miyagi": {
+    "region": "tohoku",
+    "level": 8,
+    "target": { "name": "y", "type": "regression" },
+    "metric": "r2",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","eda_preview","eda_schema","preprocess_onehot","preprocess_impute","preprocess_reset","scale_standard","scale_minmax","cv","feature_importance","tune_bayes","best_save","best_load","roc_pr","threshold_sweep_youden"],
+    "allowed_models": ["LinearRegression","DecisionTreeRegressor","RandomForestRegressor","KNeighborsRegressor","SVR","GradientBoostingRegressor","XGBoostRegressor","LightGBMRegressor","CatBoostRegressor"]
+  },
+  "akita": {
+    "region": "tohoku",
+    "level": 8,
+    "target": { "name": "y", "type": "classification" },
+    "metric": "accuracy",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","eda_preview","eda_schema","preprocess_onehot","preprocess_impute","preprocess_reset","scale_standard","scale_minmax","cv","feature_importance","tune_bayes","best_save","best_load","roc_pr","threshold_sweep_youden"],
+    "allowed_models": ["LogisticRegression","DecisionTreeClassifier","RandomForestClassifier","KNeighborsClassifier","SVC","GradientBoostingClassifier","XGBoostClassifier","LightGBMClassifier","CatBoostClassifier"]
+  },
+  "yamagata": {
+    "region": "tohoku",
+    "level": 8,
+    "target": { "name": "y", "type": "classification" },
+    "metric": "accuracy",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","eda_preview","eda_schema","preprocess_onehot","preprocess_impute","preprocess_reset","scale_standard","scale_minmax","cv","feature_importance","tune_bayes","best_save","best_load","roc_pr","threshold_sweep_youden"],
+    "allowed_models": ["LogisticRegression","DecisionTreeClassifier","RandomForestClassifier","KNeighborsClassifier","SVC","GradientBoostingClassifier","XGBoostClassifier","LightGBMClassifier","CatBoostClassifier"]
+  },
+  "fukushima": {
+    "region": "tohoku",
+    "level": 8,
+    "target": { "name": "y", "type": "classification" },
+    "metric": "accuracy",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","eda_preview","eda_schema","preprocess_onehot","preprocess_impute","preprocess_reset","scale_standard","scale_minmax","cv","feature_importance","tune_bayes","best_save","best_load","roc_pr","threshold_sweep_youden"],
+    "allowed_models": ["LogisticRegression","DecisionTreeClassifier","RandomForestClassifier","KNeighborsClassifier","SVC","GradientBoostingClassifier","XGBoostClassifier","LightGBMClassifier","CatBoostClassifier"]
+  },
+
+  "hokkaido": {
+    "region": "hokkaido",
+    "level": 9,
+    "target": { "name": "y", "type": "classification" },
+    "metric": "accuracy",
+    "greater_is_better": true,
+    "allowed_features": ["evaluate","submit","eda_preview","eda_schema","preprocess_onehot","preprocess_impute","preprocess_reset","scale_standard","scale_minmax","cv","feature_importance","tune_bayes","best_save","best_load","roc_pr","threshold_sweep_youden","cards_compare_export","stacking","shap_light"],
+    "allowed_models": ["LogisticRegression","DecisionTreeClassifier","RandomForestClassifier","KNeighborsClassifier","SVC","GradientBoostingClassifier","XGBoostClassifier","LightGBMClassifier","CatBoostClassifier","StackingClassifier"]
+  }
+}

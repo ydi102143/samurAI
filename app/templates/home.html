@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <title>samurAI – ホーム</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="/static/img/icons.svg" />
+  <link rel="stylesheet" href="/static/css/app.css" />
+  <style>
+    /* 最低限のインライン（後で app.css に統合） */
+    .home-wrap { max-width: 1100px; margin: 0 auto; padding: 24px; }
+    .hero { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 24px; align-items: center; }
+    .hero h1 { font-size: 28px; margin: 0 0 8px; }
+    .hero p { color: var(--muted, #79828b); margin: 0 0 16px; }
+    .card { background: var(--card, #141824); border-radius: 12px; padding: 16px 16px; box-shadow: 0 8px 24px rgba(0,0,0,.18); }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .btn { cursor: pointer; padding: 10px 16px; border-radius: 10px; border: 0;
+           background: var(--brand, #3E63DD); color: #fff; font-weight: 600; }
+    .btn:disabled { opacity: .55; cursor: not-allowed; }
+    .input, select { background: #0f1320; color: #e9eef7; border: 1px solid #233; border-radius: 10px; padding: 10px 12px; }
+    .kicker { font-size: 12px; letter-spacing: .08em; color: var(--muted, #848e98); text-transform: uppercase; }
+    .list { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+    .mini { padding: 12px; }
+    .mini .score { font-weight: 700; }
+    .lvl { display: inline-flex; gap: 6px; align-items: center; font-size: 12px; color: var(--muted, #9aa5b1); }
+    header.top {
+      display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 18px; }
+    .brand .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--brand, #3E63DD); }
+    .muted { color: var(--muted, #9aa5b1); }
+    @media (max-width: 960px) {
+      .hero { grid-template-columns: 1fr; }
+      .grid2 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="home-wrap">
+    <header class="top">
+      <div class="brand"><span class="dot"></span> samurAI</div>
+      <nav class="lvl">
+        <span>学習の流れ：</span>
+        <span>Overview → EDA → 前処理 → 特徴量 → モデル → アンサンブル/スタッキング → 評価 → カード</span>
+      </nav>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero card">
+      <div>
+        <div class="kicker">WELCOME</div>
+        <h1>オフラインで機械学習を“遊ぶ”</h1>
+        <p>各県の疑似データで、前処理から学習・評価・カード比較まで体験できます。レベルが上がると使える機能が増えます。</p>
+
+        <div class="row" style="margin-top: 12px;">
+          <select id="problemSelect" class="input" style="min-width: 220px;">
+            <option value="">（県を選ぶ）</option>
+          </select>
+          <input id="problemInput" class="input" placeholder="手入力（例: akita）" style="min-width: 160px;" />
+          <button id="btnStartOffline" class="btn">オフラインではじめる</button>
+        </div>
+        <div class="row" style="margin-top: 6px;">
+          <small class="muted">APIから県一覧が取得できない場合は、右のテキストに <b>problem</b> を入力して開始できます。</small>
+        </div>
+
+        <div class="row" style="margin-top: 12px;">
+          <button id="btnGoCards" class="btn" style="background:#1e2435;">モデルカードをみる</button>
+          <button id="btnHelp" class="btn" style="background:#1e2435;">チュートリアル</button>
+        </div>
+      </div>
+      <div>
+        <div class="card" style="height:100%; display:flex; align-items:center; justify-content:center;">
+          <div class="muted" style="text-align:center; line-height:1.6;">
+            <div style="font-size:42px; font-weight:900;">⚔️</div>
+            <div>データを見て、整えて、<br/>学習して、勝ち札（カード）を増やそう。</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="grid2" style="margin-top: 16px;">
+      <!-- 最近のカード -->
+      <section class="card">
+        <div class="row" style="justify-content:space-between;">
+          <div>
+            <div class="kicker">RECENT CARDS</div>
+            <h2 style="margin:6px 0 12px;">最近のモデルカード</h2>
+          </div>
+          <button id="btnReloadRecent" class="btn" style="background:#1e2435;">更新</button>
+        </div>
+        <div id="recentCards" class="list">
+          <!-- JSで挿入。APIが無ければ localStorage を使用 -->
+        </div>
+      </section>
+
+      <!-- チュートリアル進捗 -->
+      <section class="card">
+        <div class="kicker">TUTORIAL</div>
+        <h2 style="margin:6px 0 12px;">チュートリアル進捗</h2>
+        <div id="tutorialProgress" class="muted">
+          <!-- JSで挿入：Lv1〜Lv9 の到達表示 -->
+        </div>
+        <div class="row" style="margin-top: 12px;">
+          <button id="btnResetTips" class="btn" style="background:#1e2435;">チップ既読をリセット</button>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script type="module">
+    // 依存：後で作る /static/js/api.js に差し替え。今は最小限の直書きで動くように。
+    async function fetchJSON(url){
+      const r = await fetch(url);
+      if(!r.ok) throw new Error(await r.text());
+      return r.json();
+    }
+
+    // 県一覧を取得：/v1/region/problems があれば使用。なければ problem_meta.json → 最後は最低限のフォールバック
+    async function loadproblems(){
+      const sel = document.getElementById('problemSelect');
+      const fallback = ["akita","aomori","tokyo","osaka","okinawa"]; // 本当に何も無い時用
+      try{
+        // 1) 新API候補
+        const js = await fetchJSON('/v1/region/problems');
+        const problems = js.problems || [];
+        if(problems.length){
+          sel.innerHTML = '<option value="">（県を選ぶ）</option>' + problems.map(p=>`<option>${p}</option>`).join('');
+          return;
+        }
+      }catch(_){}
+
+      try{
+        // 2) 直接メタ（テンポラリの読み方。CORS/静的配信されていない場合は失敗して次へ）
+        const js = await fetchJSON('/storage/datasets/_meta/problem_meta.json');
+        const problems = Object.keys(js || {});
+        if(problems.length){
+          sel.innerHTML = '<option value="">（県を選ぶ）</option>' + problems.map(p=>`<option>${p}</option>`).join('');
+          return;
+        }
+      }catch(_){}
+
+      // 3) フォールバック
+      sel.innerHTML = '<option value="">（県を選ぶ）</option>' + fallback.map(p=>`<option>${p}</option>`).join('');
+    }
+
+    // 最近のカード：APIが未実装なら localStorage("samurai_recent_cards") から表示
+    async function loadRecent(){
+      const host = document.getElementById('recentCards');
+      host.innerHTML = '';
+      try{
+        const js = await fetchJSON('/v1/cards/recent'); // あれば使う
+        const arr = js.cards || [];
+        if(arr.length) return renderCards(arr);
+      }catch(_){}
+
+      const ls = JSON.parse(localStorage.getItem('samurai_recent_cards') || '[]');
+      renderCards(ls.slice(0,6));
+
+      function renderCards(cards){
+        if(!cards.length){
+          host.innerHTML = '<div class="muted">まだカードがありません。学習して評価すると保存されます。</div>';
+          return;
+        }
+        host.innerHTML = cards.map(c=>`
+          <div class="card mini">
+            <div class="row" style="justify-content:space-between;">
+              <div class="score">${(c.score ?? 0).toFixed ? (c.score).toFixed(4) : c.score}</div>
+              <div class="muted">${c.metric || '-'}</div>
+            </div>
+            <div class="muted">${c.model || 'model'} / ${c.task || ''}</div>
+            <div class="muted">${c.problem || ''} / ${new Date(c.ts || Date.now()).toLocaleString()}</div>
+          </div>
+        `).join('');
+      }
+    }
+
+    // チュートリアル進捗（localStorage ベース）
+    function loadTutorialProgress(){
+      const el = document.getElementById('tutorialProgress');
+      const lv = Number(localStorage.getItem('samurai_level') || '1');
+      const bars = Array.from({length:9}, (_,i)=> i+1).map(i=>{
+        const active = i <= lv ? 'background:linear-gradient(90deg,var(--brand,#3E63DD),#6da8ff);' : 'background:#202636;';
+        return `<div style="height:8px; border-radius:6px; ${active}"></div>`;
+      }).join('<div style="width:6px;"></div>');
+      el.innerHTML = `
+        <div class="row" style="justify-content:space-between;">
+          <div>現在のレベル：<b>Lv${lv}</b></div>
+          <a class="muted" href="/offline/play/akita">サンプルで開く</a>
+        </div>
+        <div style="display:flex; margin-top:10px;">${bars}</div>
+        <div class="muted" style="margin-top:8px;">Lvが上がるとEDA・前処理・CV・アンサンブル・スタッキングなどが解放されます。</div>
+      `;
+    }
+
+    // イベント
+    document.getElementById('btnStartOffline').onclick = ()=>{
+      const s = document.getElementById('problemSelect').value.trim();
+      const t = document.getElementById('problemInput').value.trim();
+      const problem = s || t;
+      if(!problem){ alert('県を選ぶか、problem を入力してください（例: akita）'); return; }
+      location.href = `/offline/play/${encodeURIComponent(problem)}`;
+    };
+    document.getElementById('btnGoCards').onclick = ()=>{
+      // 簡易遷移（problemは空でも可。後で選択UIを別ページで用意してもOK）
+      const problem = document.getElementById('problemSelect').value || 'akita';
+      location.href = `/cards/any/${encodeURIComponent(problem)}`;
+    };
+    document.getElementById('btnHelp').onclick = ()=>{
+      alert('チュートリアルは各画面の右上「?」から確認できます。レベルが上がると新しい機能が解放されます。');
+    };
+    document.getElementById('btnReloadRecent').onclick = loadRecent;
+    document.getElementById('btnResetTips').onclick = ()=>{
+      localStorage.removeItem('samurai_tips_seen');
+      alert('チップの既読をリセットしました。画面を開き直すと再表示されます。');
+    };
+
+    // 初期ロード
+    loadproblems();
+    loadRecent();
+    loadTutorialProgress();
+  </script>
+</body>
+</html>

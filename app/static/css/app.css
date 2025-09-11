@@ -1,0 +1,394 @@
+/* ===================================================================
+   samurAI – Global Design Tokens & Components
+   見た目はここで一括管理。ホーム/オフライン共通。
+   =================================================================== */
+
+/* -------------------------
+   Color System (Dark-first)
+   ------------------------- */
+:root {
+  /* Base */
+  --bg: #0c0f19;
+  --bg-soft: #0f1320;
+  --text: #e7edf8;
+  --muted: #94a0b4;
+  --border: #202637;
+
+  /* Surfaces */
+  --card: #131a2b;
+  --card-raise: rgba(0,0,0,.18);
+
+  /* Brand & Accents */
+  --brand: #3E63DD;
+  --brand-2: #6da8ff;
+  --brand-3: #a8c6ff;
+
+  /* Semantic */
+  --success: #21C081;
+  --warn:    #F0B429;
+  --danger:  #EF5E5E;
+  --info:    #5AB0FF;
+
+  /* Effects */
+  --shadow-1: 0 4px 16px rgba(0,0,0,.18);
+  --shadow-2: 0 10px 32px rgba(0,0,0,.28);
+
+  /* Radius & Spacing */
+  --r-xs: 8px;
+  --r-sm: 10px;
+  --r-md: 12px;
+  --r-lg: 16px;
+
+  --sp-1: 6px;
+  --sp-2: 10px;
+  --sp-3: 14px;
+  --sp-4: 18px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+}
+
+/* Light mode (optional) */
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f7f8fb;
+    --bg-soft: #fff;
+    --text: #111318;
+    --muted: #5c6675;
+    --border: #dfe4ef;
+
+    --card: #ffffff;
+    --card-raise: rgba(0,0,0,.06);
+
+    --shadow-1: 0 4px 14px rgba(0,0,0,.07);
+    --shadow-2: 0 16px 40px rgba(0,0,0,.10);
+  }
+}
+
+/* -------------------------
+   Reset & Base
+   ------------------------- */
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Meiryo", "Segoe UI Emoji";
+  background: radial-gradient(1200px 800px at 70% -10%, rgba(62,99,221,.25) 0%, transparent 60%), var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+img { max-width: 100%; display: block; }
+a { color: var(--brand-2); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* -------------------------
+   Layout Helpers
+   ------------------------- */
+.wrap { max-width: 1200px; margin: 0 auto; padding: var(--sp-5); }
+.container { max-width: 1100px; margin: 0 auto; padding: var(--sp-5); }
+.row { display: flex; gap: var(--sp-2); align-items: center; flex-wrap: wrap; }
+.col { display: flex; flex-direction: column; gap: var(--sp-2); }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-3); }
+.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-3); }
+.grid-auto { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: var(--sp-3); }
+
+@media (max-width: 960px) {
+  .grid2, .grid3 { grid-template-columns: 1fr; }
+}
+
+/* -------------------------
+   Typography
+   ------------------------- */
+h1, h2, h3 { margin: 0 0 var(--sp-2); line-height: 1.25; }
+h1 { font-size: clamp(22px, 3.6vw, 28px); }
+h2 { font-size: clamp(18px, 2.8vw, 22px); }
+h3 { font-size: clamp(16px, 2.2vw, 18px); }
+
+.small { font-size: 12px; color: var(--muted); }
+.muted { color: var(--muted); }
+.kicker { font-size: 12px; letter-spacing: .08em; color: var(--muted); text-transform: uppercase; }
+
+/* -------------------------
+   Card / Panel
+   ------------------------- */
+.card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02)), var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: var(--sp-4);
+  box-shadow: var(--shadow-1);
+}
+.card.raise { box-shadow: var(--shadow-2); }
+.card .card-title { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--sp-3); }
+
+.panel {
+  background: var(--bg-soft);
+  border: 1px dashed var(--border);
+  border-radius: var(--r-sm);
+  padding: var(--sp-3);
+  overflow: auto;
+}
+
+/* -------------------------
+   Buttons
+   ------------------------- */
+.btn {
+  cursor: pointer;
+  padding: 10px 16px;
+  border-radius: var(--r-sm);
+  border: 0;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(90deg, var(--brand), var(--brand-2));
+  transition: transform .02s ease, filter .15s ease;
+}
+.btn:hover { filter: brightness(1.05); }
+.btn:active { transform: translateY(1px); }
+.btn:disabled, .btn[disabled] { opacity: .55; cursor: not-allowed; }
+
+.btn.secondary {
+  background: #1e2435;
+  color: #d9e1f5;
+}
+.btn.ghost {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.btn.success { background: linear-gradient(90deg, #18a56c, var(--success)); }
+.btn.warn    { background: linear-gradient(90deg, #c4931a, var(--warn)); }
+.btn.danger  { background: linear-gradient(90deg, #c64545, var(--danger)); }
+
+/* Icon button */
+.icon-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; border-radius: 10px;
+  background: #1b2234; border: 1px solid var(--border);
+  color: var(--text);
+}
+.icon-btn[disabled] { opacity: .45; }
+
+/* -------------------------
+   Inputs
+   ------------------------- */
+.input, input[type="text"], input[type="number"], select, textarea, .ta {
+  background: var(--bg-soft);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 10px 12px;
+  outline: none;
+  min-height: 40px;
+}
+.input:focus, input:focus, select:focus, textarea:focus, .ta:focus {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px rgba(62,99,221,.22);
+}
+.ta, textarea { min-height: 110px; resize: vertical; }
+
+/* Inline pill */
+.pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: #172033; border: 1px solid var(--border);
+  color: var(--text); padding: 6px 10px; border-radius: 999px;
+  font-size: 12px;
+}
+
+/* -------------------------
+   Tabs
+   ------------------------- */
+.tabs {
+  display: flex; gap: 6px; flex-wrap: wrap;
+  background: rgba(255,255,255,.02);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 4px;
+}
+.tab-btn {
+  appearance: none; border: 0; cursor: pointer; user-select: none;
+  background: transparent; color: var(--muted);
+  padding: 8px 12px; border-radius: 10px; font-weight: 700;
+}
+.tab-btn.active {
+  color: #fff;
+  background: linear-gradient(90deg, var(--brand), var(--brand-2));
+}
+.tab-btn[disabled] {
+  opacity: .5; cursor: not-allowed;
+}
+
+.tab { display: none; margin-top: var(--sp-3); }
+.tab.active { display: block; }
+
+/* “未解放”UIの見た目（disabled を補助） */
+.locked {
+  position: relative;
+  filter: grayscale(0.2) brightness(.8);
+}
+.locked::after {
+  content: "LOCKED"; 
+  position: absolute; inset: 10px;
+  border: 2px dashed var(--border);
+  border-radius: var(--r-md);
+  color: var(--muted);
+  display: grid; place-items: center;
+  background: rgba(12, 15, 25, .45);
+  font-weight: 800; letter-spacing: .2em;
+}
+
+/* -------------------------
+   Sidebar (offline.html 用)
+   ------------------------- */
+.sidebar {
+  position: sticky; top: 16px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.side-link {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 12px; border-radius: var(--r-sm);
+  color: var(--text); border: 1px solid var(--border); background: #12182a;
+  text-decoration: none; font-weight: 600;
+}
+.side-link:hover { background: #0f1526; }
+.side-link.active { outline: 2px solid var(--brand); }
+
+/* -------------------------
+   Tables (EDA peek)
+   ------------------------- */
+.peek-wrap { width: 100%; overflow: auto; }
+table.peek {
+  width: 100%; border-collapse: separate; border-spacing: 0;
+  background: var(--bg-soft); border: 1px solid var(--border);
+  border-radius: var(--r-sm); overflow: hidden;
+}
+.peek thead th {
+  position: sticky; top: 0;
+  background: #131a2b; color: #dfe7fb; text-align: left;
+  padding: 8px 10px; font-size: 12px; border-bottom: 1px solid var(--border);
+}
+.peek tbody td {
+  padding: 8px 10px; border-bottom: 1px solid var(--border);
+  font-size: 13px; white-space: nowrap;
+}
+.peek tbody tr:nth-child(even) td { background: rgba(255,255,255,.02); }
+
+/* -------------------------
+   Messages / Alerts
+   ------------------------- */
+.msg { margin-top: 6px; font-size: 13px; color: var(--muted); }
+.alert {
+  display: flex; align-items: center; gap: 8px;
+  background: #1b2234; border: 1px solid var(--border);
+  padding: 10px 12px; border-radius: var(--r-sm);
+}
+.alert.success { border-color: rgba(33,192,129,.4); background: rgba(33,192,129,.08); color: #b9f2db; }
+.alert.warn    { border-color: rgba(240,180,41,.4); background: rgba(240,180,41,.08); color: #ffe2a6; }
+.alert.danger  { border-color: rgba(239,94,94,.4);  background: rgba(239,94,94,.08);  color: #ffc7c7; }
+
+/* -------------------------
+   Charts / Plots
+   ------------------------- */
+.plot {
+  display: grid; place-items: center;
+  min-height: 160px;
+  background: var(--bg-soft);
+  border: 1px dashed var(--border);
+  border-radius: var(--r-sm);
+  overflow: hidden;
+}
+.plot img { width: 100%; height: auto; object-fit: contain; }
+
+/* -------------------------
+   Tutorial Tips (guide chip)
+   ------------------------- */
+.guide-chip {
+  position: absolute;
+  z-index: 50;
+  max-width: 320px;
+  background: #19223a;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-2);
+  padding: 12px 12px 12px 12px;
+  color: #dde6fa;
+}
+.guide-chip .title { font-weight: 800; margin-bottom: 4px; }
+.guide-chip .body  { font-size: 13px; color: var(--muted); }
+.guide-chip .actions { display:flex; gap: 8px; margin-top: 10px; }
+.guide-chip .close { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+.guide-chip .primary { background: linear-gradient(90deg, var(--brand), var(--brand-2)); color: #fff; }
+
+/* 矢印 */
+.guide-chip::after {
+  content: ""; position: absolute; width: 14px; height: 14px; transform: rotate(45deg);
+  background: #19223a; border-left: 1px solid var(--border); border-top: 1px solid var(--border);
+  bottom: -7px; left: 24px;
+}
+
+/* 右上 “？” ボタン用シンプルバッジ */
+.badge-help {
+  display:inline-flex; align-items:center; justify-content:center;
+  width: 28px; height: 28px; border-radius: 999px;
+  background: #1e2435; color: #dfe7fb; border: 1px solid var(--border);
+  font-weight: 800;
+}
+
+/* -------------------------
+   Home specific helpers
+   ------------------------- */
+.home-wrap { max-width: 1100px; margin: 0 auto; padding: var(--sp-5); }
+.hero { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: var(--sp-4); align-items: center; }
+.hero p { color: var(--muted); margin: 0; }
+.list { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: var(--sp-2); }
+.mini { padding: var(--sp-3); }
+.mini .score { font-weight: 800; font-size: 18px; }
+
+/* -------------------------
+   Utilities
+   ------------------------- */
+.hide { display: none !important; }
+.right { margin-left: auto; }
+.center { text-align: center; }
+hr.sep {
+  height: 1px; border: 0; background: linear-gradient(90deg, transparent, var(--border), transparent);
+  margin: var(--sp-4) 0;
+}
+
+/* -------------------------
+   Confetti layer (canvas)
+   ------------------------- */
+#confetti-canvas {
+  position: fixed; inset: 0;
+  pointer-events: none;
+}
+
+/* -------------------------
+   Responsive tweaks
+   ------------------------- */
+@media (max-width: 720px) {
+  .wrap, .container, .home-wrap { padding: 16px; }
+  .tabs { padding: 3px; }
+  .tab-btn { padding: 8px 10px; }
+  .card { padding: 14px; }
+}
+
+/* ===================================================================
+   End of CSS
+   =================================================================== */
+.subtabs{ display:flex; gap:.5rem; margin:.5rem 0 1rem; }
+.subtab-btn{ padding:.5rem .8rem; border:1px solid var(--line,#ddd); background:#f7f7f8; border-radius:6px; cursor:pointer; }
+.subtab-btn.active{ background:#fff; box-shadow:0 1px 2px rgba(0,0,0,.06); }
+
+.subtab{ display:none; }
+.subtab.active{ display:block; }
+
+.card-grid{ display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:12px; }
+.model-card .model-header h3{ margin:.2rem 0; }
+.model-card .model-body{ margin:.5rem 0; }
+.params-grid{ display:grid; grid-template-columns: 1fr 1fr; gap:8px 12px; }
+.param label{ display:block; font-size:.85rem; margin-bottom:2px; color:#444; }
+.param small{ display:block; color:#777; }
+.model-footer{ display:flex; align-items:center; gap:.75rem; }
+.row.wrap{ flex-wrap:wrap; gap:8px; }
+.center{ display:flex; align-items:center; justify-content:center; min-height:180px; }
+.btn.warn{ background:#ffe8e8; border:1px solid #ffb4b4; }
