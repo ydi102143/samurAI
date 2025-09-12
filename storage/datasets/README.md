@@ -1,6 +1,6 @@
 # samurAI datasets
 
-- 生成日時: 2025-09-12T00:47:08
+- 生成日時: 2025-09-12T15:21:35
 - 保存先: storage/datasets/<region>/<pref>.csv（県別） / _processed/<pref>/latest.csv（最新の複製）
 - メタ: storage/meta/pref_meta.json（レベル/Lv解放・モデル・行数・列一覧）
 
